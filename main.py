@@ -66,7 +66,7 @@ def process_image(
         }
 
 
-def main(input_folder: str, output_folder: str, num_workers: int):
+def main(input_folder: str, output_folder: str):
     # Get the list of the images
     image_files = [f for f in os.listdir(input_folder) if f.endswith(('.png', '.jpg', '.jpeg'))]
 
@@ -109,10 +109,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o", "--output_folder", type=str, default="output", help="The folder which contains the output images with labels images"
     )
-    parser.add_argument(
-        "-n", "--num_workers", type=int, default=1, help="The number of workers used to process the images"
-    )
 
     args = parser.parse_args()
 
-    main(args.input_folder, args.output_folder, args.num_workers)
+    main(args.input_folder, args.output_folder)
