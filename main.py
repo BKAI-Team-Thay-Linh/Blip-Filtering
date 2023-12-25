@@ -67,6 +67,7 @@ def process_image(
         return None
     else:
         return {
+            'is_motorcycle': class_name == 'motorcycle',
             'old': image_name,
             'new': f"{id}_{class_name}{extention}"
         }
@@ -86,19 +87,29 @@ def main(input_folder: str, output_folder: str):
     # Create the mapping
     mapping = {}
     os.makedirs(output_folder, exist_ok=True)
+    os.makedirs('not_motorcycle', exist_ok=True)
 
     for id, image_file in enumerate(image_files):
         image_path = os.path.join(input_folder, image_file)
         result = process_image(id, image_path, model, vis_processors, class_names)
 
         if result is not None:
-            old_name = result['old']
-            new_name = result['new']
-            mapping[old_name] = new_name
+            if result['is_motorcycle']:
+                old_name = result['old']
+                new_name = result['new']
+                mapping[old_name] = new_name
 
-            print(f"[{id+1:>6} | {len(image_files):<6}] ===> Renaming {old_name} to {new_name}")
+                print(f"[{id+1:>6} | {len(image_files):<6}] ===> Renaming {old_name} to {new_name}")
 
-            copy(os.path.join(input_folder, old_name), os.path.join(output_folder, new_name))
+                copy(os.path.join(input_folder, old_name), os.path.join(output_folder, new_name))
+            else:
+                old_name = result['old']
+                new_name = result['new']
+                mapping[old_name] = new_name
+
+                print(f"[{id+1:>6} | {len(image_files):<6}] ===> Renaming {old_name} to {new_name}")
+
+                copy(os.path.join(input_folder, old_name), os.path.join('not_motorcycle', new_name))
 
     # Save the mapping
     df = pd.DataFrame.from_dict(mapping, orient='index', columns=['new_name'])
