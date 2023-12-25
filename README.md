@@ -1,5 +1,29 @@
 # Blip-Filtering
 
+Env:
+
+```
+conda create -n lavis python=3.8
+```
+
+Activate:
+
+```
+conda activate lavis
+```
+
+or
+
+```
+source activate lavis
+```
+
+Install requirements:
+
+```
+pip install -r requirements.txt
+```
+
 How to use:
 
 ```
