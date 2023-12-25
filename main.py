@@ -56,6 +56,12 @@ def process_image(
 
         # Get the class name
         class_name = cls_names[max_prob_index]
+
+        if class_name == 'motorcycle':
+            if max_prob < 0.7:
+                print(f"Threshold is not reached 0.7 for image {image_path}")
+                class_name = 'other'
+
     except Exception as e:
         print(f"Error when processing image {image_path}: {e}")
         return None
